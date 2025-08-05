@@ -17,10 +17,7 @@ jobs:
         run: |
           echo "Last run: $(date)" > last-run.txt
 
-      - name: Commit changes
-        run: |
-          git config --global user.name 'Raushan Kumar'
-          git config --global user.email 'raushforlife@gmail.com'
-          git add last-run.txt
-          git commit -m "Daily commit: $(date)"
-          git push
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
