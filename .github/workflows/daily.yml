@@ -2,22 +2,23 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs every day at midnight UTC
-  workflow_dispatch:     # Allows manual triggering
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  workflow_dispatch:
 
 jobs:
   commit:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Make a dummy change
-        run: |
-          echo "Last run: $(date)" > last-run.txt
+      - name: Make changes
+        run: echo "$(date)" >> log.txt
 
-      - name: Push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GH_TOKEN }}
+      - name: Commit changes
+        run: |
+          git config --global user.name 'your-username'
+          git config --global user.email 'your-email@example.com'
+          git add .
+          git commit -m "Daily update"
+          git push
